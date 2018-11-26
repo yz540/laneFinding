@@ -11,6 +11,21 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
+[//]: # (Image References)
+
+[image1]: ./output_images/calibration2_src.jpg "Distorted"
+[image2]: ./output_images/calibration2_dst.jpg "Undistorted"
+[image3]: ./test_images/test1.jpg "Road img"
+[image4]: ./output_images/test1_undistorted.jpg "Undistorted road img"
+[image5]: ./output_images/test1_undistorted_thresholded "Binary img"
+[image4]: ./output_images/test1_warped.jpg "Warp img"
+[image5]: ./output_images/color_fit_lines.jpg "Fit Visual"
+[image6]: ./output_images/output_img.jpg "Output img"
+[video1]: ./project_video.mp4 "Video"
+[video2]: ./project_video_output.mp4 "Result video"
+[video3]: ./challenge_video.mp4 "Chanllenge video"
+[video4]: ./challenge_video_output.mp4 "Challenge result video"
+
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -20,20 +35,23 @@ The goals / steps of this project are the following:
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for this step is contained in lines 12 - 45 in Python file ".src/pipeline_image.py".  
+The code for this step is contained in lines 12 - 45 in Python file ".src/pipeline_image.py".  The tutorial of camera calibration in openCV can be found [here](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_calib3d/py_calibration/py_calibration.html).
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
-I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
+I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result. For instance, the calibration2_src is the distorted image with corners detected. 
 
-![origin][./output_images/calibration2.jpg]
+![calibration2.jpg][image1]
+![calibration2 undistorted][image2]
 
 ### Pipeline (single images)
 
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+![Road image][image3]
+In the camera calibration step, I obtained the camera matrix and distortion coefficients. By calling the method cv2.undistort(), I got the undistorted image like this one:
+![Undistorted road image][image4]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
