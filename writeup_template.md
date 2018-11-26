@@ -16,11 +16,11 @@ The goals / steps of this project are the following:
 [image1]: ./output_images/calibration2_src.jpg "Distorted"
 [image2]: ./output_images/calibration2_dst.jpg "Undistorted"
 [image3]: ./test_images/test1.jpg "Road img"
-[image4]: ./output_images/test1_undistorted.jpg "Undistorted road img"
-[image5]: ./output_images/test1_thresholded.jpg "Binary img"
-[image6]: ./output_images/test1_warped.jpg "Warp img"
+[image4]: ./output_images/test1_undistorted.png "Undistorted road img"
+[image5]: ./output_images/test1_thresholded.png "Binary img"
+[image6]: ./output_images/test1_warped.png "Warp img"
 [image7]: ./output_images/test1_fittedPoly.png "Fit Visual"
-[image8]: ./output_images/test1_projected.jpg "Output img"
+[image8]: ./output_images/test1_projected.png "Output img"
 [video1]: ./project_video.mp4 "Video"
 [video2]: ./project_video_output.mp4 "Result video"
 [video3]: ./challenge_video.mp4 "Chanllenge video"
@@ -57,10 +57,11 @@ In the camera calibration step, I obtained the camera matrix and distortion coef
 
 At first I used a combination of s channel of HSV color space, grayscale threshold and sobel gradient thresholds to generate a binary image (thresholding steps at lines 66 through 94 in method produce_thresholded_combined_binary_image() in`src/pipeline_image.py` where lines 88 through 94 was commented because it didn't work well for challenge video.). The combined binary is:
     combined_binary[(gray_binary ==1 ) & ((s_binary == 1) | (sxbinary == 1)) ] = 1
+
+Although it works even with shadows in the project video with these three thresholds, it failed to detect the yellow lane lines in the challenge video. I changed it to detect yellow in the left half and white in the right half. 
+
 Here's an example of my output for this step.
 ![alt text][image5]
-
-Although it works even with shadows in the project video with these three thresholds, it failed to detect the yellow lane lines in the challenge video. 
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
