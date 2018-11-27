@@ -100,13 +100,20 @@ I verified that my perspective transform was working as expected by drawing the 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 Then I took a histogram of the bottom half of the image, then found the peak of the left and right halves of the histogram and used them as the base of the two lane lines on left and right side. Then I iterated sliding windows to detect nonzero pixels. The corresponding code can be found in lines 114 through 182 in method find_lane_pixels() in `src/pipeline_image.py`. 
-With the nonzero x and y values, I fit my lane lines with a 2nd order polynomial in lines 184 through 207 in method fit_poly() in `src/pipeline_image.py`. The resulting fitted lines are like this:
+With the nonzero x and y values, I fit my lane lines with a 2nd order polynomial in lines 184 through 207 in method fit_poly() in `src/pipeline_image.py`. The sliding windows and resulting fitted lines are like this:
 
 ![polyfitted image][image7]
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center. 
 
 I did this in lines 277 through 289 in my code in method measure_curvature_real() in `src/pipeline_image.py`. The formula used is in this [page](https://www.intmath.com/applications-differentiation/8-radius-curvature.php)
+Here is how I calculated the difference between vehicle position and lane center:
+* Assume that the vehicle's position is in the middle of the image.
+* Calculated the distance from left and right lines to the center of the vehicle as in line 94 and 104 in `src/pipeline_video.py`
+* Add up the two distance to obtain the calculated lane width
+* The difference calculated lane width and standard lane width 3.7m, divided by 2, is the result, as in line 106.
+
+I verified that the difference is less than 0.5m.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
