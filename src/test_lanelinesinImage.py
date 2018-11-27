@@ -51,6 +51,6 @@ for fname in test_images:
     mpimg.imsave(fname.replace('.jpg', '_undistorted.png'), undistorted_img)
     mpimg.imsave(fname.replace('.jpg', '_thresholded.png'), binary_img*255)
     mpimg.imsave(fname.replace('.jpg', '_warped.png'), warped_img*255)
-     
-    protected_img = draw_project_lines(img, warped_img, left_fitx, right_fitx, ploty)
+    plt.imsave(fname.replace('.jpg', 'fittedPoly.png'), warpage) 
+    protected_img = draw_project_lines(undistorted_img, warped_img, left_fitx, right_fitx, ploty)
     mpimg.imsave(fname.replace('.jpg', '_projected.png'), protected_img)

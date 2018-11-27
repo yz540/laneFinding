@@ -36,10 +36,6 @@ def camera_calibration_undistortion():
     
             # Draw and display the corners
             img = cv2.drawChessboardCorners(img, (9,6), corners, ret)
-#             cv2.imshow('img',img)
-#             cv2.waitKey(500)
-    
-    #cv2.destroyAllWindows()
     
     # Camera calibration to get the camera matrix and distortion coefficients
     ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1],None,None)
