@@ -22,6 +22,7 @@ def sanity_check(left_line, right_line):
     return similar_curvature and right_distance and nearly_parallel
   
 def process_image(img):
+    from builtins import str
     global passed_sanity_check, left_lines, right_lines, recent_right_xfitted, recent_left_xfitted
     # When read the first frame, assign the constant values to variables that will be 
     # used everywhere but only need to assign once in the project
@@ -101,7 +102,10 @@ def process_image(img):
         right_line.recent_xfitted = recent_right_xfitted
         right_line.bestx = np.average(right_line.recent_xfitted, 0)
         right_line.line_base_pos = (right_line.bestx[-1] - para.img_size[0]/2) * para.xm_per_pix
-        
+    
+        distance_from_centre = (left_line.line_base_pos + right_line.line_base_pos - 3.7)/2
+        if np.absolute(distance_from_centre) > 0.5:
+            print("wrong centre offset!!!!!!!!!!!!!!")
         # perform sanity check for each frame
         passed_sanity_check = sanity_check(left_line, right_line)
         if passed_sanity_check:
@@ -122,13 +126,25 @@ def process_image(img):
             left_bestx = left_line.bestx
             right_bestx = right_line.bestx
     
-        projected_img = draw_project_lines(img, warped_img, left_bestx, right_bestx, ploty)
+        projected_img = draw_project_lines(undistorted_img, warped_img, left_bestx, right_bestx, ploty)
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        fontScale = 1
+        fontColor = (0,0,0)
+        lineType = 2
+        
+        cv2.putText(projected_img, "Curvature radius:" , (10, 50), font, fontScale, fontColor, lineType)
+        cv2.putText(projected_img, "Left: " + str("%.2f" % left_line.radius_of_curvature) + "m Right: " + str("%.2f" % right_line.radius_of_curvature) + "m" , (10, 100), font, fontScale, fontColor, lineType)
+        cv2.putText(projected_img, "Distance from centre: " , (10, 150), font, fontScale, fontColor, lineType)
+        cv2.putText(projected_img, str("%.2f" % distance_from_centre) + "m" , (10, 200), font, fontScale, fontColor, lineType)
         #     cv2.imwrite(fname.replace('.jpg', '_protected.jpg'), projected_img)
         
         # return the final output (image where lines are drawn on lanes)
         return projected_img
     else:
         return img
+
+
+
 
 # Only calibrate the camera once at the beginning
 if para.mtx == None:
