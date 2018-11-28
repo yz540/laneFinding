@@ -103,7 +103,10 @@ def process_image(img):
         right_line.bestx = np.average(right_line.recent_xfitted, 0)
         right_line.line_base_pos = (right_line.bestx[-1] - para.img_size[0]/2) * para.xm_per_pix
     
-        distance_from_centre = (left_line.line_base_pos + right_line.line_base_pos - 3.7)/2
+        # assume the camera is at the centre of the vehicle. The centre offset is (the lane centre - the image centre )
+        # then convert from pixel to meters.
+        distance_from_centre = ((right_line.bestx[-1] + left_line.bestx[-1] )/2 - para.img_size[0]/2 ) * para.xm_per_pix
+        
         if np.absolute(distance_from_centre) > 0.5:
             print("wrong centre offset!!!!!!!!!!!!!!")
         # perform sanity check for each frame
@@ -160,7 +163,7 @@ left_lines = deque(maxlen = para.SMOOTH_WINDOW)
 right_lines = deque(maxlen = para.SMOOTH_WINDOW)
 
 # Process each image in the input video
-test_video_output = '../challenge_video_output.mp4'
-clip1 = VideoFileClip("../challenge_video.mp4")
+test_video_output = '../project_video_output.mp4'
+clip1 = VideoFileClip("../project_video.mp4")
 test_video_clip = clip1.fl_image(process_image) #NOTE: this function expects color images!!
 test_video_clip.write_videofile(test_video_output, audio=False)

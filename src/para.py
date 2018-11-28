@@ -20,7 +20,7 @@ polyfit_search_margin = 80
 
 # Define conversions in x and y from pixels space to meters
 ym_per_pix = 30/720 # meters per pixel in y dimension
-xm_per_pix = 3.7/700 # meters per pixel in x dimension
+xm_per_pix = None # meters per pixel in x dimension
 
 # record the left and right lines data in the 5 last frames
 SMOOTH_WINDOW = 5

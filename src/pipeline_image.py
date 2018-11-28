@@ -117,7 +117,8 @@ def find_lane_pixels(binary_warped):
     midpoint = np.int(histogram.shape[0]//2)
     leftx_base = np.argmax(histogram[:midpoint])
     rightx_base = np.argmax(histogram[midpoint:]) + midpoint
-
+    if para.xm_per_pix == None:
+        para.xm_per_pix = 3.7 / (rightx_base - leftx_base)
     # Set height of windows - based on nwindows above and image shape
     window_height = np.int(binary_warped.shape[0]//para.nwindows)
     # Identify the x and y positions of all nonzero pixels in the image
