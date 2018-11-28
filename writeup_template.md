@@ -108,12 +108,11 @@ With the nonzero x and y values, I fit my lane lines with a 2nd order polynomial
 
 I did this in lines 277 through 289 in my code in method measure_curvature_real() in `src/pipeline_image.py`. The formula used is in this [page](https://www.intmath.com/applications-differentiation/8-radius-curvature.php)
 Here is how I calculated the difference between vehicle position and lane center:
-* Assume that the vehicle's position is in the middle of the image.
-* Calculated the distance from left and right lines to the center of the vehicle as in line 94 and 104 in `src/pipeline_video.py`
-* Add up the two distance to obtain the calculated lane width
-* The difference calculated lane width and standard lane width 3.7m, divided by 2, is the result, as in line 106.
+* Assume the camera is at the centre of the vehicle.
+* Calculated the centre pixel of the left and right line and then substracted the image pixel centre and converted the pixel difference to meter as in line 108 in `src/pipeline_video.py`
+* The meter per pixel was calculated by standard lane width 3.7 / (the first fitted left and right base difference) as in line 120-121 in `src/pipeline_image.py`, which is 3.7/645.
 
-I verified that the difference is less than 0.5m.
+I verified that the peak around 31s is about 0.4, less than 0.5m.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
